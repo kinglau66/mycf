@@ -1,0 +1,42 @@
+{
+  "applications": "*",
+  "changelogDate": "20220814070046",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "applicant",
+  "fields": [
+    {
+      "fieldName": "firstName",
+      "fieldType": "String",
+      "javadoc": "The firstname attribute."
+    },
+    {
+      "fieldName": "lastName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "email",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "phoneNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "createdDt",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "salary",
+      "fieldType": "Long"
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "The Employee entity.",
+  "jpaMetamodelFiltering": false,
+  "name": "Applicant",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no"
+}

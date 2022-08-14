@@ -1,0 +1,42 @@
+{
+  "applications": "*",
+  "changelogDate": "20220814070048",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "loan",
+  "fields": [
+    {
+      "fieldName": "amount",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "current",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Loan",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "loanAttribute",
+      "ownerSide": true,
+      "relationshipName": "loanAttribute",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "applicant",
+      "ownerSide": true,
+      "relationshipName": "applicant",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "loanRequirement",
+      "relationshipName": "loanRequirement",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}

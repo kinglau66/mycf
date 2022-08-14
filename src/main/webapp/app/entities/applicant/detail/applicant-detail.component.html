@@ -1,0 +1,52 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="applicant">
+      <h2 data-cy="applicantDetailsHeading"><span>Applicant</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ applicant.id }}</span>
+        </dd>
+        <dt><span ngbTooltip="The firstname attribute.">First Name</span></dt>
+        <dd>
+          <span>{{ applicant.firstName }}</span>
+        </dd>
+        <dt><span>Last Name</span></dt>
+        <dd>
+          <span>{{ applicant.lastName }}</span>
+        </dd>
+        <dt><span>Email</span></dt>
+        <dd>
+          <span>{{ applicant.email }}</span>
+        </dd>
+        <dt><span>Phone Number</span></dt>
+        <dd>
+          <span>{{ applicant.phoneNumber }}</span>
+        </dd>
+        <dt><span>Created Dt</span></dt>
+        <dd>
+          <span>{{ applicant.createdDt | formatMediumDate }}</span>
+        </dd>
+        <dt><span>Salary</span></dt>
+        <dd>
+          <span>{{ applicant.salary }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/applicant', applicant.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,88 @@
+<div>
+  <h2 id="page-heading" data-cy="ApplicantHeading">
+    <span>Applicants</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-applicant"
+        [routerLink]="['/applicant/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span> Create a new Applicant </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="applicants?.length === 0">
+    <span>No Applicants found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="applicants && applicants.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="firstName"><span>First Name</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="lastName"><span>Last Name</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="email"><span>Email</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="phoneNumber"><span>Phone Number</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="createdDt"><span>Created Dt</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="salary"><span>Salary</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let applicant of applicants; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/applicant', applicant.id, 'view']">{{ applicant.id }}</a>
+          </td>
+          <td>{{ applicant.firstName }}</td>
+          <td>{{ applicant.lastName }}</td>
+          <td>{{ applicant.email }}</td>
+          <td>{{ applicant.phoneNumber }}</td>
+          <td>{{ applicant.createdDt | formatMediumDate }}</td>
+          <td>{{ applicant.salary }}</td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/applicant', applicant.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/applicant', applicant.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(applicant)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

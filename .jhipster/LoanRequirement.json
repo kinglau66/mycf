@@ -1,0 +1,37 @@
+{
+  "applications": "*",
+  "changelogDate": "20220814070047",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "loan_requirement",
+  "fields": [
+    {
+      "fieldName": "totalLimit",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "currency",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "type",
+      "fieldType": "LoanType",
+      "fieldValues": "CAR,ENGLISH,SPANISH"
+    },
+    {
+      "fieldName": "startDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "endDate",
+      "fieldType": "Instant"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "LoanRequirement",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no"
+}

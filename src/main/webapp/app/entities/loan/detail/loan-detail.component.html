@@ -1,0 +1,54 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="loan">
+      <h2 data-cy="loanDetailsHeading"><span>Loan</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ loan.id }}</span>
+        </dd>
+        <dt><span>Amount</span></dt>
+        <dd>
+          <span>{{ loan.amount }}</span>
+        </dd>
+        <dt><span>Current</span></dt>
+        <dd>
+          <span>{{ loan.current }}</span>
+        </dd>
+        <dt><span>Loan Attribute</span></dt>
+        <dd>
+          <div *ngIf="loan.loanAttribute">
+            <a [routerLink]="['/loan-attribute', loan.loanAttribute.id, 'view']">{{ loan?.loanAttribute?.id }}</a>
+          </div>
+        </dd>
+        <dt><span>Applicant</span></dt>
+        <dd>
+          <div *ngIf="loan.applicant">
+            <a [routerLink]="['/applicant', loan.applicant.id, 'view']">{{ loan?.applicant?.id }}</a>
+          </div>
+        </dd>
+        <dt><span>Loan Requirement</span></dt>
+        <dd>
+          <div *ngIf="loan.loanRequirement">
+            <a [routerLink]="['/loan-requirement', loan.loanRequirement.id, 'view']">{{ loan?.loanRequirement?.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/loan', loan.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,91 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-loan-heading" data-cy="LoanCreateUpdateHeading">Create or edit a Loan</h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_amount">Amount</label>
+          <input type="number" class="form-control" name="amount" id="field_amount" data-cy="amount" formControlName="amount" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_current">Current</label>
+          <input type="text" class="form-control" name="current" id="field_current" data-cy="current" formControlName="current" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_loanAttribute">Loan Attribute</label>
+          <select
+            class="form-control"
+            id="field_loanAttribute"
+            data-cy="loanAttribute"
+            name="loanAttribute"
+            formControlName="loanAttribute"
+            [compareWith]="compareLoanAttribute"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="loanAttributeOption" *ngFor="let loanAttributeOption of loanAttributesSharedCollection">
+              {{ loanAttributeOption.id }}
+            </option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_applicant">Applicant</label>
+          <select
+            class="form-control"
+            id="field_applicant"
+            data-cy="applicant"
+            name="applicant"
+            formControlName="applicant"
+            [compareWith]="compareApplicant"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="applicantOption" *ngFor="let applicantOption of applicantsSharedCollection">{{ applicantOption.id }}</option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_loanRequirement">Loan Requirement</label>
+          <select
+            class="form-control"
+            id="field_loanRequirement"
+            data-cy="loanRequirement"
+            name="loanRequirement"
+            formControlName="loanRequirement"
+            [compareWith]="compareLoanRequirement"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="loanRequirementOption" *ngFor="let loanRequirementOption of loanRequirementsSharedCollection">
+              {{ loanRequirementOption.id }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

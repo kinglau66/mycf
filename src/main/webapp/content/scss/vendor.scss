@@ -1,0 +1,17 @@
+/* after changing this file run 'npm run webapp:build' */
+
+/***************************
+put Sass variables here:
+eg $input-color: red;
+****************************/
+// Override Bootstrap variables
+@import 'bootstrap-variables';
+// Import Bootstrap source files from node_modules
+@import '~bootstrap/scss/bootstrap';
+
+/* jhipster-needle-scss-add-vendor JHipster will add new css style */
+
+// Import PrimeNG source files
+@import '~primeng/resources/primeng.min.css';
+@import '~primeng/resources/themes/bootstrap4-light-blue/theme.css';
+@import '~primeicons/primeicons.css';
