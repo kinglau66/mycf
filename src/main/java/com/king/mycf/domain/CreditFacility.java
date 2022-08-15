@@ -1,9 +1,13 @@
 package com.king.mycf.domain;
 
+import static com.king.mycf.config.Constants.DEFAULT_LOCALE;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Currency;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 import javax.persistence.*;
 import org.hibernate.annotations.Cache;
@@ -29,7 +33,7 @@ public class CreditFacility implements Serializable {
     private Long totalLimit;
 
     @Column(name = "currency")
-    private String currency;
+    private Currency currency = Currency.getInstance(DEFAULT_LOCALE);
 
     @Column(name = "start_date")
     private LocalDate startDate;
@@ -75,16 +79,16 @@ public class CreditFacility implements Serializable {
         this.totalLimit = totalLimit;
     }
 
-    public String getCurrency() {
+    public Currency getCurrency() {
         return this.currency;
     }
 
-    public CreditFacility currency(String currency) {
+    public CreditFacility currency(Currency currency) {
         this.setCurrency(currency);
         return this;
     }
 
-    public void setCurrency(String currency) {
+    public void setCurrency(Currency currency) {
         this.currency = currency;
     }
 

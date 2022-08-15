@@ -1,5 +1,7 @@
 package com.king.mycf.config;
 
+import java.util.Locale;
+
 /**
  * Application constants.
  */
@@ -10,6 +12,7 @@ public final class Constants {
 
     public static final String SYSTEM = "system";
     public static final String DEFAULT_LANGUAGE = "en";
+    public static final Locale DEFAULT_LOCALE = new Locale("en", "SG");
 
     private Constants() {}
 }

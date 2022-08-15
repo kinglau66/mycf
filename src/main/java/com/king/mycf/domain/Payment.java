@@ -3,6 +3,7 @@ package com.king.mycf.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import javax.persistence.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -30,7 +31,7 @@ public class Payment implements Serializable {
     private String paymentType;
 
     @Column(name = "payment_date")
-    private LocalDate paymentDate;
+    private LocalDateTime paymentDate = LocalDateTime.now();
 
     @ManyToOne
     @JsonIgnoreProperties(value = { "applicant", "payments", "creditFacility" }, allowSetters = true)
@@ -77,16 +78,16 @@ public class Payment implements Serializable {
         this.paymentType = paymentType;
     }
 
-    public LocalDate getPaymentDate() {
+    public LocalDateTime getPaymentDate() {
         return this.paymentDate;
     }
 
-    public Payment paymentDate(LocalDate paymentDate) {
+    public Payment paymentDate(LocalDateTime paymentDate) {
         this.setPaymentDate(paymentDate);
         return this;
     }
 
-    public void setPaymentDate(LocalDate paymentDate) {
+    public void setPaymentDate(LocalDateTime paymentDate) {
         this.paymentDate = paymentDate;
     }
 
