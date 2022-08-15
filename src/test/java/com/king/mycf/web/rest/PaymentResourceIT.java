@@ -9,7 +9,9 @@ import com.king.mycf.IntegrationTest;
 import com.king.mycf.domain.Payment;
 import com.king.mycf.repository.PaymentRepository;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
@@ -37,8 +39,8 @@ class PaymentResourceIT {
     private static final String DEFAULT_PAYMENT_TYPE = "AAAAAAAAAA";
     private static final String UPDATED_PAYMENT_TYPE = "BBBBBBBBBB";
 
-    private static final LocalDate DEFAULT_PAYMENT_DATE = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_PAYMENT_DATE = LocalDate.now(ZoneId.systemDefault());
+    private static final LocalDateTime DEFAULT_PAYMENT_DATE = LocalDateTime.now(ZoneId.systemDefault());
+    private static final LocalDateTime UPDATED_PAYMENT_DATE = LocalDateTime.now(ZoneId.systemDefault());
 
     private static final String ENTITY_API_URL = "/api/payments";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";

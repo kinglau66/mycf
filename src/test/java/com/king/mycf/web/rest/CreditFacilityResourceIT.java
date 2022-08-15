@@ -1,5 +1,6 @@
 package com.king.mycf.web.rest;
 
+import static com.king.mycf.config.Constants.DEFAULT_LOCALE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -10,7 +11,9 @@ import com.king.mycf.domain.CreditFacility;
 import com.king.mycf.repository.CreditFacilityRepository;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Currency;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 import javax.persistence.EntityManager;
@@ -34,8 +37,8 @@ class CreditFacilityResourceIT {
     private static final Long DEFAULT_TOTAL_LIMIT = 1L;
     private static final Long UPDATED_TOTAL_LIMIT = 2L;
 
-    private static final String DEFAULT_CURRENCY = "AAAAAAAAAA";
-    private static final String UPDATED_CURRENCY = "BBBBBBBBBB";
+    private static final Currency DEFAULT_CURRENCY = Currency.getInstance(DEFAULT_LOCALE);
+    private static final Currency UPDATED_CURRENCY = Currency.getInstance(Locale.CANADA);
 
     private static final LocalDate DEFAULT_START_DATE = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_START_DATE = LocalDate.now(ZoneId.systemDefault());
