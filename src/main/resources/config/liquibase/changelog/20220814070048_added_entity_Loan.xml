@@ -17,16 +17,22 @@
             <column name="amount" type="bigint">
                 <constraints nullable="true" />
             </column>
-            <column name="current" type="varchar(255)">
+            <column name="currency" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="loan_attribute_id" type="bigint">
-                <constraints nullable="true" unique="true" uniqueConstraintName="ux_loan__loan_attribute_id" />
+            <column name="start_date" type="date">
+                <constraints nullable="true" />
+            </column>
+            <column name="end_date" type="date">
+                <constraints nullable="true" />
+            </column>
+            <column name="interest_rate" type="double">
+                <constraints nullable="true" />
             </column>
             <column name="applicant_id" type="bigint">
                 <constraints nullable="true" unique="true" uniqueConstraintName="ux_loan__applicant_id" />
             </column>
-            <column name="loan_requirement_id" type="bigint">
+            <column name="credit_facility_id" type="bigint">
                 <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
@@ -51,7 +57,10 @@
                   usePreparedStatements="true">
             <column name="id" type="numeric"/>
             <column name="amount" type="numeric"/>
-            <column name="current" type="string"/>
+            <column name="currency" type="string"/>
+            <column name="start_date" type="date"/>
+            <column name="end_date" type="date"/>
+            <column name="interest_rate" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

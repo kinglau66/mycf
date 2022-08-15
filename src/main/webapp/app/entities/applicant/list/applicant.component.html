@@ -39,6 +39,8 @@
           <th scope="col" jhiSortBy="phoneNumber"><span>Phone Number</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col" jhiSortBy="createdDt"><span>Created Dt</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col" jhiSortBy="salary"><span>Salary</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="user.id"><span>User</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="creditFacility.id"><span>Credit Facility</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -53,6 +55,14 @@
           <td>{{ applicant.phoneNumber }}</td>
           <td>{{ applicant.createdDt | formatMediumDate }}</td>
           <td>{{ applicant.salary }}</td>
+          <td>
+            {{ applicant.user?.id }}
+          </td>
+          <td>
+            <div *ngIf="applicant.creditFacility">
+              <a [routerLink]="['/credit-facility', applicant.creditFacility.id, 'view']">{{ applicant.creditFacility?.id }}</a>
+            </div>
+          </td>
           <td class="text-end">
             <div class="btn-group">
               <button
@@ -84,5 +94,23 @@
         </tr>
       </tbody>
     </table>
+  </div>
+
+  <div *ngIf="applicants && applicants.length > 0">
+    <div class="d-flex justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [page]="page"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="navigateToPage($event)"
+      ></ngb-pagination>
+    </div>
   </div>
 </div>

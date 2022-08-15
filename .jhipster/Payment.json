@@ -21,8 +21,15 @@
   "fluentMethods": true,
   "jpaMetamodelFiltering": false,
   "name": "Payment",
-  "pagination": "no",
+  "pagination": "pagination",
   "readOnly": false,
-  "relationships": [],
+  "relationships": [
+    {
+      "otherEntityName": "loan",
+      "otherEntityRelationshipName": "payment",
+      "relationshipName": "loan",
+      "relationshipType": "many-to-one"
+    }
+  ],
   "service": "no"
 }

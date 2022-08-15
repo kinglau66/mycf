@@ -53,6 +53,14 @@
             </button>
           </div>
         </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_loan">Loan</label>
+          <select class="form-control" id="field_loan" data-cy="loan" name="loan" formControlName="loan" [compareWith]="compareLoan">
+            <option [ngValue]="null"></option>
+            <option [ngValue]="loanOption" *ngFor="let loanOption of loansSharedCollection">{{ loanOption.id }}</option>
+          </select>
+        </div>
       </div>
 
       <div>

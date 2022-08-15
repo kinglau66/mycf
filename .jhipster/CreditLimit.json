@@ -1,0 +1,32 @@
+{
+  "applications": "*",
+  "changelogDate": "20220815135604",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "credit_limit",
+  "fields": [
+    {
+      "fieldName": "type",
+      "fieldType": "LoanType",
+      "fieldValues": "CAR,ENGLISH,SPANISH"
+    },
+    {
+      "fieldName": "totalLimit",
+      "fieldType": "Long"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "CreditLimit",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "creditFacility",
+      "otherEntityRelationshipName": "creditLimit",
+      "relationshipName": "creditFacility",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}

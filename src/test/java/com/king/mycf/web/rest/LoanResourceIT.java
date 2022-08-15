@@ -8,6 +8,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.king.mycf.IntegrationTest;
 import com.king.mycf.domain.Loan;
 import com.king.mycf.repository.LoanRepository;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
@@ -32,8 +34,17 @@ class LoanResourceIT {
     private static final Long DEFAULT_AMOUNT = 1L;
     private static final Long UPDATED_AMOUNT = 2L;
 
-    private static final String DEFAULT_CURRENT = "AAAAAAAAAA";
-    private static final String UPDATED_CURRENT = "BBBBBBBBBB";
+    private static final String DEFAULT_CURRENCY = "AAAAAAAAAA";
+    private static final String UPDATED_CURRENCY = "BBBBBBBBBB";
+
+    private static final LocalDate DEFAULT_START_DATE = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_START_DATE = LocalDate.now(ZoneId.systemDefault());
+
+    private static final LocalDate DEFAULT_END_DATE = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_END_DATE = LocalDate.now(ZoneId.systemDefault());
+
+    private static final Double DEFAULT_INTEREST_RATE = 1D;
+    private static final Double UPDATED_INTEREST_RATE = 2D;
 
     private static final String ENTITY_API_URL = "/api/loans";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -59,7 +70,12 @@ class LoanResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Loan createEntity(EntityManager em) {
-        Loan loan = new Loan().amount(DEFAULT_AMOUNT).current(DEFAULT_CURRENT);
+        Loan loan = new Loan()
+            .amount(DEFAULT_AMOUNT)
+            .currency(DEFAULT_CURRENCY)
+            .startDate(DEFAULT_START_DATE)
+            .endDate(DEFAULT_END_DATE)
+            .interestRate(DEFAULT_INTEREST_RATE);
         return loan;
     }
 
@@ -70,7 +86,12 @@ class LoanResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Loan createUpdatedEntity(EntityManager em) {
-        Loan loan = new Loan().amount(UPDATED_AMOUNT).current(UPDATED_CURRENT);
+        Loan loan = new Loan()
+            .amount(UPDATED_AMOUNT)
+            .currency(UPDATED_CURRENCY)
+            .startDate(UPDATED_START_DATE)
+            .endDate(UPDATED_END_DATE)
+            .interestRate(UPDATED_INTEREST_RATE);
         return loan;
     }
 
@@ -93,7 +114,10 @@ class LoanResourceIT {
         assertThat(loanList).hasSize(databaseSizeBeforeCreate + 1);
         Loan testLoan = loanList.get(loanList.size() - 1);
         assertThat(testLoan.getAmount()).isEqualTo(DEFAULT_AMOUNT);
-        assertThat(testLoan.getCurrent()).isEqualTo(DEFAULT_CURRENT);
+        assertThat(testLoan.getCurrency()).isEqualTo(DEFAULT_CURRENCY);
+        assertThat(testLoan.getStartDate()).isEqualTo(DEFAULT_START_DATE);
+        assertThat(testLoan.getEndDate()).isEqualTo(DEFAULT_END_DATE);
+        assertThat(testLoan.getInterestRate()).isEqualTo(DEFAULT_INTEREST_RATE);
     }
 
     @Test
@@ -127,7 +151,10 @@ class LoanResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(loan.getId().intValue())))
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
-            .andExpect(jsonPath("$.[*].current").value(hasItem(DEFAULT_CURRENT)));
+            .andExpect(jsonPath("$.[*].currency").value(hasItem(DEFAULT_CURRENCY)))
+            .andExpect(jsonPath("$.[*].startDate").value(hasItem(DEFAULT_START_DATE.toString())))
+            .andExpect(jsonPath("$.[*].endDate").value(hasItem(DEFAULT_END_DATE.toString())))
+            .andExpect(jsonPath("$.[*].interestRate").value(hasItem(DEFAULT_INTEREST_RATE.doubleValue())));
     }
 
     @Test
@@ -143,7 +170,10 @@ class LoanResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(loan.getId().intValue()))
             .andExpect(jsonPath("$.amount").value(DEFAULT_AMOUNT.intValue()))
-            .andExpect(jsonPath("$.current").value(DEFAULT_CURRENT));
+            .andExpect(jsonPath("$.currency").value(DEFAULT_CURRENCY))
+            .andExpect(jsonPath("$.startDate").value(DEFAULT_START_DATE.toString()))
+            .andExpect(jsonPath("$.endDate").value(DEFAULT_END_DATE.toString()))
+            .andExpect(jsonPath("$.interestRate").value(DEFAULT_INTEREST_RATE.doubleValue()));
     }
 
     @Test
@@ -165,7 +195,12 @@ class LoanResourceIT {
         Loan updatedLoan = loanRepository.findById(loan.getId()).get();
         // Disconnect from session so that the updates on updatedLoan are not directly saved in db
         em.detach(updatedLoan);
-        updatedLoan.amount(UPDATED_AMOUNT).current(UPDATED_CURRENT);
+        updatedLoan
+            .amount(UPDATED_AMOUNT)
+            .currency(UPDATED_CURRENCY)
+            .startDate(UPDATED_START_DATE)
+            .endDate(UPDATED_END_DATE)
+            .interestRate(UPDATED_INTEREST_RATE);
 
         restLoanMockMvc
             .perform(
@@ -180,7 +215,10 @@ class LoanResourceIT {
         assertThat(loanList).hasSize(databaseSizeBeforeUpdate);
         Loan testLoan = loanList.get(loanList.size() - 1);
         assertThat(testLoan.getAmount()).isEqualTo(UPDATED_AMOUNT);
-        assertThat(testLoan.getCurrent()).isEqualTo(UPDATED_CURRENT);
+        assertThat(testLoan.getCurrency()).isEqualTo(UPDATED_CURRENCY);
+        assertThat(testLoan.getStartDate()).isEqualTo(UPDATED_START_DATE);
+        assertThat(testLoan.getEndDate()).isEqualTo(UPDATED_END_DATE);
+        assertThat(testLoan.getInterestRate()).isEqualTo(UPDATED_INTEREST_RATE);
     }
 
     @Test
@@ -251,6 +289,8 @@ class LoanResourceIT {
         Loan partialUpdatedLoan = new Loan();
         partialUpdatedLoan.setId(loan.getId());
 
+        partialUpdatedLoan.startDate(UPDATED_START_DATE).interestRate(UPDATED_INTEREST_RATE);
+
         restLoanMockMvc
             .perform(
                 patch(ENTITY_API_URL_ID, partialUpdatedLoan.getId())
@@ -264,7 +304,10 @@ class LoanResourceIT {
         assertThat(loanList).hasSize(databaseSizeBeforeUpdate);
         Loan testLoan = loanList.get(loanList.size() - 1);
         assertThat(testLoan.getAmount()).isEqualTo(DEFAULT_AMOUNT);
-        assertThat(testLoan.getCurrent()).isEqualTo(DEFAULT_CURRENT);
+        assertThat(testLoan.getCurrency()).isEqualTo(DEFAULT_CURRENCY);
+        assertThat(testLoan.getStartDate()).isEqualTo(UPDATED_START_DATE);
+        assertThat(testLoan.getEndDate()).isEqualTo(DEFAULT_END_DATE);
+        assertThat(testLoan.getInterestRate()).isEqualTo(UPDATED_INTEREST_RATE);
     }
 
     @Test
@@ -279,7 +322,12 @@ class LoanResourceIT {
         Loan partialUpdatedLoan = new Loan();
         partialUpdatedLoan.setId(loan.getId());
 
-        partialUpdatedLoan.amount(UPDATED_AMOUNT).current(UPDATED_CURRENT);
+        partialUpdatedLoan
+            .amount(UPDATED_AMOUNT)
+            .currency(UPDATED_CURRENCY)
+            .startDate(UPDATED_START_DATE)
+            .endDate(UPDATED_END_DATE)
+            .interestRate(UPDATED_INTEREST_RATE);
 
         restLoanMockMvc
             .perform(
@@ -294,7 +342,10 @@ class LoanResourceIT {
         assertThat(loanList).hasSize(databaseSizeBeforeUpdate);
         Loan testLoan = loanList.get(loanList.size() - 1);
         assertThat(testLoan.getAmount()).isEqualTo(UPDATED_AMOUNT);
-        assertThat(testLoan.getCurrent()).isEqualTo(UPDATED_CURRENT);
+        assertThat(testLoan.getCurrency()).isEqualTo(UPDATED_CURRENCY);
+        assertThat(testLoan.getStartDate()).isEqualTo(UPDATED_START_DATE);
+        assertThat(testLoan.getEndDate()).isEqualTo(UPDATED_END_DATE);
+        assertThat(testLoan.getInterestRate()).isEqualTo(UPDATED_INTEREST_RATE);
     }
 
     @Test

@@ -1,5 +1,6 @@
 package com.king.mycf.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.time.LocalDate;
 import javax.persistence.*;
@@ -30,6 +31,10 @@ public class Payment implements Serializable {
 
     @Column(name = "payment_date")
     private LocalDate paymentDate;
+
+    @ManyToOne
+    @JsonIgnoreProperties(value = { "applicant", "payments", "creditFacility" }, allowSetters = true)
+    private Loan loan;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -83,6 +88,19 @@ public class Payment implements Serializable {
 
     public void setPaymentDate(LocalDate paymentDate) {
         this.paymentDate = paymentDate;
+    }
+
+    public Loan getLoan() {
+        return this.loan;
+    }
+
+    public void setLoan(Loan loan) {
+        this.loan = loan;
+    }
+
+    public Payment loan(Loan loan) {
+        this.setLoan(loan);
+        return this;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

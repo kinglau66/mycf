@@ -9,6 +9,8 @@ import { of, Subject, from } from 'rxjs';
 import { PaymentFormService } from './payment-form.service';
 import { PaymentService } from '../service/payment.service';
 import { IPayment } from '../payment.model';
+import { ILoan } from 'app/entities/loan/loan.model';
+import { LoanService } from 'app/entities/loan/service/loan.service';
 
 import { PaymentUpdateComponent } from './payment-update.component';
 
@@ -18,6 +20,7 @@ describe('Payment Management Update Component', () => {
   let activatedRoute: ActivatedRoute;
   let paymentFormService: PaymentFormService;
   let paymentService: PaymentService;
+  let loanService: LoanService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -40,17 +43,43 @@ describe('Payment Management Update Component', () => {
     activatedRoute = TestBed.inject(ActivatedRoute);
     paymentFormService = TestBed.inject(PaymentFormService);
     paymentService = TestBed.inject(PaymentService);
+    loanService = TestBed.inject(LoanService);
 
     comp = fixture.componentInstance;
   });
 
   describe('ngOnInit', () => {
-    it('Should update editForm', () => {
+    it('Should call Loan query and add missing value', () => {
       const payment: IPayment = { id: 456 };
+      const loan: ILoan = { id: 26019 };
+      payment.loan = loan;
+
+      const loanCollection: ILoan[] = [{ id: 52727 }];
+      jest.spyOn(loanService, 'query').mockReturnValue(of(new HttpResponse({ body: loanCollection })));
+      const additionalLoans = [loan];
+      const expectedCollection: ILoan[] = [...additionalLoans, ...loanCollection];
+      jest.spyOn(loanService, 'addLoanToCollectionIfMissing').mockReturnValue(expectedCollection);
 
       activatedRoute.data = of({ payment });
       comp.ngOnInit();
 
+      expect(loanService.query).toHaveBeenCalled();
+      expect(loanService.addLoanToCollectionIfMissing).toHaveBeenCalledWith(
+        loanCollection,
+        ...additionalLoans.map(expect.objectContaining)
+      );
+      expect(comp.loansSharedCollection).toEqual(expectedCollection);
+    });
+
+    it('Should update editForm', () => {
+      const payment: IPayment = { id: 456 };
+      const loan: ILoan = { id: 36295 };
+      payment.loan = loan;
+
+      activatedRoute.data = of({ payment });
+      comp.ngOnInit();
+
+      expect(comp.loansSharedCollection).toContain(loan);
       expect(comp.payment).toEqual(payment);
     });
   });
@@ -120,6 +149,18 @@ describe('Payment Management Update Component', () => {
       expect(paymentService.update).toHaveBeenCalled();
       expect(comp.isSaving).toEqual(false);
       expect(comp.previousState).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('Compare relationships', () => {
+    describe('compareLoan', () => {
+      it('Should forward to loanService', () => {
+        const entity = { id: 123 };
+        const entity2 = { id: 456 };
+        jest.spyOn(loanService, 'compareLoan');
+        comp.compareLoan(entity, entity2);
+        expect(loanService.compareLoan).toHaveBeenCalledWith(entity, entity2);
+      });
     });
   });
 });

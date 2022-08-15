@@ -38,6 +38,16 @@
         <dd>
           <span>{{ applicant.salary }}</span>
         </dd>
+        <dt><span>User</span></dt>
+        <dd>
+          <span>{{ applicant.user?.id }}</span>
+        </dd>
+        <dt><span>Credit Facility</span></dt>
+        <dd>
+          <div *ngIf="applicant.creditFacility">
+            <a [routerLink]="['/credit-facility', applicant.creditFacility.id, 'view']">{{ applicant.creditFacility?.id }}</a>
+          </div>
+        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

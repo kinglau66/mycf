@@ -53,6 +53,11 @@ public class CacheConfiguration {
             createCache(cm, com.king.mycf.domain.Loan.class.getName());
             createCache(cm, com.king.mycf.domain.LoanAttribute.class.getName());
             createCache(cm, com.king.mycf.domain.Payment.class.getName());
+            createCache(cm, com.king.mycf.domain.Loan.class.getName() + ".payments");
+            createCache(cm, com.king.mycf.domain.CreditFacility.class.getName());
+            createCache(cm, com.king.mycf.domain.CreditFacility.class.getName() + ".creditLimits");
+            createCache(cm, com.king.mycf.domain.CreditFacility.class.getName() + ".applicants");
+            createCache(cm, com.king.mycf.domain.CreditLimit.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

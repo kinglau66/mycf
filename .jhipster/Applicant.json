@@ -35,8 +35,21 @@
   "javadoc": "The Employee entity.",
   "jpaMetamodelFiltering": false,
   "name": "Applicant",
-  "pagination": "no",
+  "pagination": "pagination",
   "readOnly": false,
-  "relationships": [],
+  "relationships": [
+    {
+      "otherEntityName": "user",
+      "ownerSide": true,
+      "relationshipName": "user",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "creditFacility",
+      "otherEntityRelationshipName": "applicant",
+      "relationshipName": "creditFacility",
+      "relationshipType": "many-to-one"
+    }
+  ],
   "service": "no"
 }

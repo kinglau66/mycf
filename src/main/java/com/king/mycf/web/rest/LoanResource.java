@@ -128,8 +128,17 @@ public class LoanResource {
                 if (loan.getAmount() != null) {
                     existingLoan.setAmount(loan.getAmount());
                 }
-                if (loan.getCurrent() != null) {
-                    existingLoan.setCurrent(loan.getCurrent());
+                if (loan.getCurrency() != null) {
+                    existingLoan.setCurrency(loan.getCurrency());
+                }
+                if (loan.getStartDate() != null) {
+                    existingLoan.setStartDate(loan.getStartDate());
+                }
+                if (loan.getEndDate() != null) {
+                    existingLoan.setEndDate(loan.getEndDate());
+                }
+                if (loan.getInterestRate() != null) {
+                    existingLoan.setInterestRate(loan.getInterestRate());
                 }
 
                 return existingLoan;

@@ -9,12 +9,10 @@ import { of, Subject, from } from 'rxjs';
 import { LoanFormService } from './loan-form.service';
 import { LoanService } from '../service/loan.service';
 import { ILoan } from '../loan.model';
-import { ILoanAttribute } from 'app/entities/loan-attribute/loan-attribute.model';
-import { LoanAttributeService } from 'app/entities/loan-attribute/service/loan-attribute.service';
 import { IApplicant } from 'app/entities/applicant/applicant.model';
 import { ApplicantService } from 'app/entities/applicant/service/applicant.service';
-import { ILoanRequirement } from 'app/entities/loan-requirement/loan-requirement.model';
-import { LoanRequirementService } from 'app/entities/loan-requirement/service/loan-requirement.service';
+import { ICreditFacility } from 'app/entities/credit-facility/credit-facility.model';
+import { CreditFacilityService } from 'app/entities/credit-facility/service/credit-facility.service';
 
 import { LoanUpdateComponent } from './loan-update.component';
 
@@ -24,9 +22,8 @@ describe('Loan Management Update Component', () => {
   let activatedRoute: ActivatedRoute;
   let loanFormService: LoanFormService;
   let loanService: LoanService;
-  let loanAttributeService: LoanAttributeService;
   let applicantService: ApplicantService;
-  let loanRequirementService: LoanRequirementService;
+  let creditFacilityService: CreditFacilityService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -49,36 +46,13 @@ describe('Loan Management Update Component', () => {
     activatedRoute = TestBed.inject(ActivatedRoute);
     loanFormService = TestBed.inject(LoanFormService);
     loanService = TestBed.inject(LoanService);
-    loanAttributeService = TestBed.inject(LoanAttributeService);
     applicantService = TestBed.inject(ApplicantService);
-    loanRequirementService = TestBed.inject(LoanRequirementService);
+    creditFacilityService = TestBed.inject(CreditFacilityService);
 
     comp = fixture.componentInstance;
   });
 
   describe('ngOnInit', () => {
-    it('Should call LoanAttribute query and add missing value', () => {
-      const loan: ILoan = { id: 456 };
-      const loanAttribute: ILoanAttribute = { id: 73826 };
-      loan.loanAttribute = loanAttribute;
-
-      const loanAttributeCollection: ILoanAttribute[] = [{ id: 73848 }];
-      jest.spyOn(loanAttributeService, 'query').mockReturnValue(of(new HttpResponse({ body: loanAttributeCollection })));
-      const additionalLoanAttributes = [loanAttribute];
-      const expectedCollection: ILoanAttribute[] = [...additionalLoanAttributes, ...loanAttributeCollection];
-      jest.spyOn(loanAttributeService, 'addLoanAttributeToCollectionIfMissing').mockReturnValue(expectedCollection);
-
-      activatedRoute.data = of({ loan });
-      comp.ngOnInit();
-
-      expect(loanAttributeService.query).toHaveBeenCalled();
-      expect(loanAttributeService.addLoanAttributeToCollectionIfMissing).toHaveBeenCalledWith(
-        loanAttributeCollection,
-        ...additionalLoanAttributes.map(expect.objectContaining)
-      );
-      expect(comp.loanAttributesSharedCollection).toEqual(expectedCollection);
-    });
-
     it('Should call Applicant query and add missing value', () => {
       const loan: ILoan = { id: 456 };
       const applicant: IApplicant = { id: 30494 };
@@ -101,43 +75,40 @@ describe('Loan Management Update Component', () => {
       expect(comp.applicantsSharedCollection).toEqual(expectedCollection);
     });
 
-    it('Should call LoanRequirement query and add missing value', () => {
+    it('Should call CreditFacility query and add missing value', () => {
       const loan: ILoan = { id: 456 };
-      const loanRequirement: ILoanRequirement = { id: 4421 };
-      loan.loanRequirement = loanRequirement;
+      const creditFacility: ICreditFacility = { id: 27971 };
+      loan.creditFacility = creditFacility;
 
-      const loanRequirementCollection: ILoanRequirement[] = [{ id: 57602 }];
-      jest.spyOn(loanRequirementService, 'query').mockReturnValue(of(new HttpResponse({ body: loanRequirementCollection })));
-      const additionalLoanRequirements = [loanRequirement];
-      const expectedCollection: ILoanRequirement[] = [...additionalLoanRequirements, ...loanRequirementCollection];
-      jest.spyOn(loanRequirementService, 'addLoanRequirementToCollectionIfMissing').mockReturnValue(expectedCollection);
+      const creditFacilityCollection: ICreditFacility[] = [{ id: 67834 }];
+      jest.spyOn(creditFacilityService, 'query').mockReturnValue(of(new HttpResponse({ body: creditFacilityCollection })));
+      const additionalCreditFacilities = [creditFacility];
+      const expectedCollection: ICreditFacility[] = [...additionalCreditFacilities, ...creditFacilityCollection];
+      jest.spyOn(creditFacilityService, 'addCreditFacilityToCollectionIfMissing').mockReturnValue(expectedCollection);
 
       activatedRoute.data = of({ loan });
       comp.ngOnInit();
 
-      expect(loanRequirementService.query).toHaveBeenCalled();
-      expect(loanRequirementService.addLoanRequirementToCollectionIfMissing).toHaveBeenCalledWith(
-        loanRequirementCollection,
-        ...additionalLoanRequirements.map(expect.objectContaining)
+      expect(creditFacilityService.query).toHaveBeenCalled();
+      expect(creditFacilityService.addCreditFacilityToCollectionIfMissing).toHaveBeenCalledWith(
+        creditFacilityCollection,
+        ...additionalCreditFacilities.map(expect.objectContaining)
       );
-      expect(comp.loanRequirementsSharedCollection).toEqual(expectedCollection);
+      expect(comp.creditFacilitiesSharedCollection).toEqual(expectedCollection);
     });
 
     it('Should update editForm', () => {
       const loan: ILoan = { id: 456 };
-      const loanAttribute: ILoanAttribute = { id: 88068 };
-      loan.loanAttribute = loanAttribute;
       const applicant: IApplicant = { id: 39198 };
       loan.applicant = applicant;
-      const loanRequirement: ILoanRequirement = { id: 272 };
-      loan.loanRequirement = loanRequirement;
+      const creditFacility: ICreditFacility = { id: 86705 };
+      loan.creditFacility = creditFacility;
 
       activatedRoute.data = of({ loan });
       comp.ngOnInit();
 
-      expect(comp.loanAttributesSharedCollection).toContain(loanAttribute);
       expect(comp.applicantsSharedCollection).toContain(applicant);
-      expect(comp.loanRequirementsSharedCollection).toContain(loanRequirement);
+      expect(comp.creditFacilitiesSharedCollection).toContain(creditFacility);
       expect(comp.loan).toEqual(loan);
     });
   });
@@ -211,16 +182,6 @@ describe('Loan Management Update Component', () => {
   });
 
   describe('Compare relationships', () => {
-    describe('compareLoanAttribute', () => {
-      it('Should forward to loanAttributeService', () => {
-        const entity = { id: 123 };
-        const entity2 = { id: 456 };
-        jest.spyOn(loanAttributeService, 'compareLoanAttribute');
-        comp.compareLoanAttribute(entity, entity2);
-        expect(loanAttributeService.compareLoanAttribute).toHaveBeenCalledWith(entity, entity2);
-      });
-    });
-
     describe('compareApplicant', () => {
       it('Should forward to applicantService', () => {
         const entity = { id: 123 };
@@ -231,13 +192,13 @@ describe('Loan Management Update Component', () => {
       });
     });
 
-    describe('compareLoanRequirement', () => {
-      it('Should forward to loanRequirementService', () => {
+    describe('compareCreditFacility', () => {
+      it('Should forward to creditFacilityService', () => {
         const entity = { id: 123 };
         const entity2 = { id: 456 };
-        jest.spyOn(loanRequirementService, 'compareLoanRequirement');
-        comp.compareLoanRequirement(entity, entity2);
-        expect(loanRequirementService.compareLoanRequirement).toHaveBeenCalledWith(entity, entity2);
+        jest.spyOn(creditFacilityService, 'compareCreditFacility');
+        comp.compareCreditFacility(entity, entity2);
+        expect(creditFacilityService.compareCreditFacility).toHaveBeenCalledWith(entity, entity2);
       });
     });
   });

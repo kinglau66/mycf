@@ -24,6 +24,8 @@ type ApplicantFormGroupContent = {
   phoneNumber: FormControl<IApplicant['phoneNumber']>;
   createdDt: FormControl<IApplicant['createdDt']>;
   salary: FormControl<IApplicant['salary']>;
+  user: FormControl<IApplicant['user']>;
+  creditFacility: FormControl<IApplicant['creditFacility']>;
 };
 
 export type ApplicantFormGroup = FormGroup<ApplicantFormGroupContent>;
@@ -49,6 +51,8 @@ export class ApplicantFormService {
       phoneNumber: new FormControl(applicantRawValue.phoneNumber),
       createdDt: new FormControl(applicantRawValue.createdDt),
       salary: new FormControl(applicantRawValue.salary),
+      user: new FormControl(applicantRawValue.user),
+      creditFacility: new FormControl(applicantRawValue.creditFacility),
     });
   }
 

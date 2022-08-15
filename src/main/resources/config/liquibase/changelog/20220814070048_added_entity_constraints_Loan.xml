@@ -8,22 +8,16 @@
     -->
     <changeSet id="20220814070048-2" author="jhipster">
 
-        <addForeignKeyConstraint baseColumnNames="loan_attribute_id"
-                                 baseTableName="loan"
-                                 constraintName="fk_loan__loan_attribute_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="loan_attribute"/>
-
         <addForeignKeyConstraint baseColumnNames="applicant_id"
                                  baseTableName="loan"
                                  constraintName="fk_loan__applicant_id"
                                  referencedColumnNames="id"
                                  referencedTableName="applicant"/>
 
-        <addForeignKeyConstraint baseColumnNames="loan_requirement_id"
+        <addForeignKeyConstraint baseColumnNames="credit_facility_id"
                                  baseTableName="loan"
-                                 constraintName="fk_loan__loan_requirement_id"
+                                 constraintName="fk_loan__credit_facility_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="loan_requirement"/>
+                                 referencedTableName="credit_facility"/>
     </changeSet>
 </databaseChangeLog>

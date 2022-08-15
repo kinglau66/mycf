@@ -21,10 +21,12 @@ describe('Loan Form Service', () => {
           expect.objectContaining({
             id: expect.any(Object),
             amount: expect.any(Object),
-            current: expect.any(Object),
-            loanAttribute: expect.any(Object),
+            currency: expect.any(Object),
+            startDate: expect.any(Object),
+            endDate: expect.any(Object),
+            interestRate: expect.any(Object),
             applicant: expect.any(Object),
-            loanRequirement: expect.any(Object),
+            creditFacility: expect.any(Object),
           })
         );
       });
@@ -36,10 +38,12 @@ describe('Loan Form Service', () => {
           expect.objectContaining({
             id: expect.any(Object),
             amount: expect.any(Object),
-            current: expect.any(Object),
-            loanAttribute: expect.any(Object),
+            currency: expect.any(Object),
+            startDate: expect.any(Object),
+            endDate: expect.any(Object),
+            interestRate: expect.any(Object),
             applicant: expect.any(Object),
-            loanRequirement: expect.any(Object),
+            creditFacility: expect.any(Object),
           })
         );
       });

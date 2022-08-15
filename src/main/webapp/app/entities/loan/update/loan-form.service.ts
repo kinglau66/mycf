@@ -19,10 +19,12 @@ type LoanFormDefaults = Pick<NewLoan, 'id'>;
 type LoanFormGroupContent = {
   id: FormControl<ILoan['id'] | NewLoan['id']>;
   amount: FormControl<ILoan['amount']>;
-  current: FormControl<ILoan['current']>;
-  loanAttribute: FormControl<ILoan['loanAttribute']>;
+  currency: FormControl<ILoan['currency']>;
+  startDate: FormControl<ILoan['startDate']>;
+  endDate: FormControl<ILoan['endDate']>;
+  interestRate: FormControl<ILoan['interestRate']>;
   applicant: FormControl<ILoan['applicant']>;
-  loanRequirement: FormControl<ILoan['loanRequirement']>;
+  creditFacility: FormControl<ILoan['creditFacility']>;
 };
 
 export type LoanFormGroup = FormGroup<LoanFormGroupContent>;
@@ -43,10 +45,12 @@ export class LoanFormService {
         }
       ),
       amount: new FormControl(loanRawValue.amount),
-      current: new FormControl(loanRawValue.current),
-      loanAttribute: new FormControl(loanRawValue.loanAttribute),
+      currency: new FormControl(loanRawValue.currency),
+      startDate: new FormControl(loanRawValue.startDate),
+      endDate: new FormControl(loanRawValue.endDate),
+      interestRate: new FormControl(loanRawValue.interestRate),
       applicant: new FormControl(loanRawValue.applicant),
-      loanRequirement: new FormControl(loanRawValue.loanRequirement),
+      creditFacility: new FormControl(loanRawValue.creditFacility),
     });
   }
 

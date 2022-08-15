@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { finalize, map } from 'rxjs/operators';
 
 import { PaymentFormService, PaymentFormGroup } from './payment-form.service';
 import { IPayment } from '../payment.model';
 import { PaymentService } from '../service/payment.service';
+import { ILoan } from 'app/entities/loan/loan.model';
+import { LoanService } from 'app/entities/loan/service/loan.service';
 
 @Component({
   selector: 'jhi-payment-update',
@@ -16,13 +18,18 @@ export class PaymentUpdateComponent implements OnInit {
   isSaving = false;
   payment: IPayment | null = null;
 
+  loansSharedCollection: ILoan[] = [];
+
   editForm: PaymentFormGroup = this.paymentFormService.createPaymentFormGroup();
 
   constructor(
     protected paymentService: PaymentService,
     protected paymentFormService: PaymentFormService,
+    protected loanService: LoanService,
     protected activatedRoute: ActivatedRoute
   ) {}
+
+  compareLoan = (o1: ILoan | null, o2: ILoan | null): boolean => this.loanService.compareLoan(o1, o2);
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ payment }) => {
@@ -30,6 +37,8 @@ export class PaymentUpdateComponent implements OnInit {
       if (payment) {
         this.updateForm(payment);
       }
+
+      this.loadRelationshipsOptions();
     });
   }
 
@@ -69,5 +78,15 @@ export class PaymentUpdateComponent implements OnInit {
   protected updateForm(payment: IPayment): void {
     this.payment = payment;
     this.paymentFormService.resetForm(this.editForm, payment);
+
+    this.loansSharedCollection = this.loanService.addLoanToCollectionIfMissing<ILoan>(this.loansSharedCollection, payment.loan);
+  }
+
+  protected loadRelationshipsOptions(): void {
+    this.loanService
+      .query()
+      .pipe(map((res: HttpResponse<ILoan[]>) => res.body ?? []))
+      .pipe(map((loans: ILoan[]) => this.loanService.addLoanToCollectionIfMissing<ILoan>(loans, this.payment?.loan)))
+      .subscribe((loans: ILoan[]) => (this.loansSharedCollection = loans));
   }
 }

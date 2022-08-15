@@ -58,7 +58,7 @@ export class AccountService {
   }
 
   isAuthenticated(): boolean {
-    return this.userIdentity !== null;
+    return !!this.userIdentity;
   }
 
   getAuthenticationState(): Observable<Account | null> {

@@ -17,25 +17,54 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_current">Current</label>
-          <input type="text" class="form-control" name="current" id="field_current" data-cy="current" formControlName="current" />
+          <label class="form-label" for="field_currency">Currency</label>
+          <input type="text" class="form-control" name="currency" id="field_currency" data-cy="currency" formControlName="currency" />
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_loanAttribute">Loan Attribute</label>
-          <select
+          <label class="form-label" for="field_startDate">Start Date</label>
+          <div class="input-group">
+            <input
+              id="field_startDate"
+              data-cy="startDate"
+              type="text"
+              class="form-control"
+              name="startDate"
+              ngbDatepicker
+              #startDateDp="ngbDatepicker"
+              formControlName="startDate"
+            />
+            <button type="button" class="btn btn-secondary" (click)="startDateDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_endDate">End Date</label>
+          <div class="input-group">
+            <input
+              id="field_endDate"
+              data-cy="endDate"
+              type="text"
+              class="form-control"
+              name="endDate"
+              ngbDatepicker
+              #endDateDp="ngbDatepicker"
+              formControlName="endDate"
+            />
+            <button type="button" class="btn btn-secondary" (click)="endDateDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_interestRate">Interest Rate</label>
+          <input
+            type="number"
             class="form-control"
-            id="field_loanAttribute"
-            data-cy="loanAttribute"
-            name="loanAttribute"
-            formControlName="loanAttribute"
-            [compareWith]="compareLoanAttribute"
-          >
-            <option [ngValue]="null"></option>
-            <option [ngValue]="loanAttributeOption" *ngFor="let loanAttributeOption of loanAttributesSharedCollection">
-              {{ loanAttributeOption.id }}
-            </option>
-          </select>
+            name="interestRate"
+            id="field_interestRate"
+            data-cy="interestRate"
+            formControlName="interestRate"
+          />
         </div>
 
         <div class="row mb-3">
@@ -54,18 +83,18 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_loanRequirement">Loan Requirement</label>
+          <label class="form-label" for="field_creditFacility">Credit Facility</label>
           <select
             class="form-control"
-            id="field_loanRequirement"
-            data-cy="loanRequirement"
-            name="loanRequirement"
-            formControlName="loanRequirement"
-            [compareWith]="compareLoanRequirement"
+            id="field_creditFacility"
+            data-cy="creditFacility"
+            name="creditFacility"
+            formControlName="creditFacility"
+            [compareWith]="compareCreditFacility"
           >
             <option [ngValue]="null"></option>
-            <option [ngValue]="loanRequirementOption" *ngFor="let loanRequirementOption of loanRequirementsSharedCollection">
-              {{ loanRequirementOption.id }}
+            <option [ngValue]="creditFacilityOption" *ngFor="let creditFacilityOption of creditFacilitiesSharedCollection">
+              {{ creditFacilityOption.id }}
             </option>
           </select>
         </div>

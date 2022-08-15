@@ -1,6 +1,10 @@
 package com.king.mycf.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -24,19 +28,31 @@ public class Loan implements Serializable {
     @Column(name = "amount")
     private Long amount;
 
-    @Column(name = "current")
-    private String current;
+    @Column(name = "currency")
+    private String currency;
 
-    @OneToOne
-    @JoinColumn(unique = true)
-    private LoanAttribute loanAttribute;
+    @Column(name = "start_date")
+    private LocalDate startDate;
 
+    @Column(name = "end_date")
+    private LocalDate endDate;
+
+    @Column(name = "interest_rate")
+    private Double interestRate;
+
+    @JsonIgnoreProperties(value = { "user", "creditFacility" }, allowSetters = true)
     @OneToOne
     @JoinColumn(unique = true)
     private Applicant applicant;
 
+    @OneToMany(mappedBy = "loan")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(value = { "loan" }, allowSetters = true)
+    private Set<Payment> payments = new HashSet<>();
+
     @ManyToOne
-    private LoanRequirement loanRequirement;
+    @JsonIgnoreProperties(value = { "creditLimits", "applicants" }, allowSetters = true)
+    private CreditFacility creditFacility;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -66,30 +82,56 @@ public class Loan implements Serializable {
         this.amount = amount;
     }
 
-    public String getCurrent() {
-        return this.current;
+    public String getCurrency() {
+        return this.currency;
     }
 
-    public Loan current(String current) {
-        this.setCurrent(current);
+    public Loan currency(String currency) {
+        this.setCurrency(currency);
         return this;
     }
 
-    public void setCurrent(String current) {
-        this.current = current;
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 
-    public LoanAttribute getLoanAttribute() {
-        return this.loanAttribute;
+    public LocalDate getStartDate() {
+        return this.startDate;
     }
 
-    public void setLoanAttribute(LoanAttribute loanAttribute) {
-        this.loanAttribute = loanAttribute;
-    }
-
-    public Loan loanAttribute(LoanAttribute loanAttribute) {
-        this.setLoanAttribute(loanAttribute);
+    public Loan startDate(LocalDate startDate) {
+        this.setStartDate(startDate);
         return this;
+    }
+
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
+
+    public LocalDate getEndDate() {
+        return this.endDate;
+    }
+
+    public Loan endDate(LocalDate endDate) {
+        this.setEndDate(endDate);
+        return this;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
+    }
+
+    public Double getInterestRate() {
+        return this.interestRate;
+    }
+
+    public Loan interestRate(Double interestRate) {
+        this.setInterestRate(interestRate);
+        return this;
+    }
+
+    public void setInterestRate(Double interestRate) {
+        this.interestRate = interestRate;
     }
 
     public Applicant getApplicant() {
@@ -105,16 +147,47 @@ public class Loan implements Serializable {
         return this;
     }
 
-    public LoanRequirement getLoanRequirement() {
-        return this.loanRequirement;
+    public Set<Payment> getPayments() {
+        return this.payments;
     }
 
-    public void setLoanRequirement(LoanRequirement loanRequirement) {
-        this.loanRequirement = loanRequirement;
+    public void setPayments(Set<Payment> payments) {
+        if (this.payments != null) {
+            this.payments.forEach(i -> i.setLoan(null));
+        }
+        if (payments != null) {
+            payments.forEach(i -> i.setLoan(this));
+        }
+        this.payments = payments;
     }
 
-    public Loan loanRequirement(LoanRequirement loanRequirement) {
-        this.setLoanRequirement(loanRequirement);
+    public Loan payments(Set<Payment> payments) {
+        this.setPayments(payments);
+        return this;
+    }
+
+    public Loan addPayment(Payment payment) {
+        this.payments.add(payment);
+        payment.setLoan(this);
+        return this;
+    }
+
+    public Loan removePayment(Payment payment) {
+        this.payments.remove(payment);
+        payment.setLoan(null);
+        return this;
+    }
+
+    public CreditFacility getCreditFacility() {
+        return this.creditFacility;
+    }
+
+    public void setCreditFacility(CreditFacility creditFacility) {
+        this.creditFacility = creditFacility;
+    }
+
+    public Loan creditFacility(CreditFacility creditFacility) {
+        this.setCreditFacility(creditFacility);
         return this;
     }
 
@@ -143,7 +216,10 @@ public class Loan implements Serializable {
         return "Loan{" +
             "id=" + getId() +
             ", amount=" + getAmount() +
-            ", current='" + getCurrent() + "'" +
+            ", currency='" + getCurrency() + "'" +
+            ", startDate='" + getStartDate() + "'" +
+            ", endDate='" + getEndDate() + "'" +
+            ", interestRate=" + getInterestRate() +
             "}";
     }
 }

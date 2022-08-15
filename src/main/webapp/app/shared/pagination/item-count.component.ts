@@ -15,7 +15,7 @@ export class ItemCountComponent {
    *                    itemsPerPage  Number of items per page
    */
   @Input() set params(params: { page?: number; totalItems?: number; itemsPerPage?: number }) {
-    if (params.page && params.totalItems !== undefined && params.itemsPerPage) {
+    if (params.page && !!params.totalItems && params.itemsPerPage) {
       this.first = (params.page - 1) * params.itemsPerPage + 1;
       this.second = params.page * params.itemsPerPage < params.totalItems ? params.page * params.itemsPerPage : params.totalItems;
     } else {

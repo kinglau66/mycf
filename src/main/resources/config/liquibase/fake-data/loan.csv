@@ -1,11 +1,11 @@
-id;amount;current
-1;14530;optical
-2;1510;Tajikistan salmon Swaziland
-3;48470;Global
-4;98119;web-readiness Place Customizable
-5;96990;card Nevada
-6;88395;mobile
-7;4031;Devolved state Saint
-8;7933;copy orange port
-9;5274;area
-10;45854;Fantastic SMTP
+id;amount;currency;start_date;end_date;interest_rate
+1;14530;optical;2022-08-14;2022-08-13;53455
+2;87639;salmon Swaziland Avon;2022-08-13;2022-08-14;98119
+3;69155;Soap Customizable;2022-08-13;2022-08-13;72234
+4;31297;Nevada TCP Implementation;2022-08-13;2022-08-14;17173
+5;36264;Dynamic bypass application;2022-08-13;2022-08-14;32198
+6;11864;demand-driven Home Lodge;2022-08-14;2022-08-13;28916
+7;88047;Buckinghamshire implement encryption;2022-08-13;2022-08-14;9268
+8;67094;Music;2022-08-13;2022-08-13;45542
+9;81600;back-end Nebraska PNG;2022-08-14;2022-08-13;73655
+10;66024;Legacy Utah Quetzal;2022-08-13;2022-08-13;64554

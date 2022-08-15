@@ -10,8 +10,20 @@
       "fieldType": "Long"
     },
     {
-      "fieldName": "current",
+      "fieldName": "currency",
       "fieldType": "String"
+    },
+    {
+      "fieldName": "startDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "endDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "interestRate",
+      "fieldType": "Double"
     }
   ],
   "fluentMethods": true,
@@ -21,20 +33,20 @@
   "readOnly": false,
   "relationships": [
     {
-      "otherEntityName": "loanAttribute",
-      "ownerSide": true,
-      "relationshipName": "loanAttribute",
-      "relationshipType": "one-to-one"
-    },
-    {
       "otherEntityName": "applicant",
       "ownerSide": true,
       "relationshipName": "applicant",
       "relationshipType": "one-to-one"
     },
     {
-      "otherEntityName": "loanRequirement",
-      "relationshipName": "loanRequirement",
+      "otherEntityName": "payment",
+      "otherEntityRelationshipName": "loan",
+      "relationshipName": "payment",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "creditFacility",
+      "relationshipName": "creditFacility",
       "relationshipType": "many-to-one"
     }
   ],

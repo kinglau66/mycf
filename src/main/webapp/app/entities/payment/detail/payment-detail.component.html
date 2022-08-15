@@ -26,6 +26,12 @@
         <dd>
           <span>{{ payment.paymentDate | formatMediumDate }}</span>
         </dd>
+        <dt><span>Loan</span></dt>
+        <dd>
+          <div *ngIf="payment.loan">
+            <a [routerLink]="['/loan', payment.loan.id, 'view']">{{ payment.loan?.id }}</a>
+          </div>
+        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

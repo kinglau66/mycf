@@ -17,24 +17,24 @@ entity Applicant {
 	salary Long
 }
 
-entity LoanRequirement {
- 	 totalLimit Long,
-     currency String,
-     type LoanType,
-     startDate Instant,
-     endDate Instant
+entity CreditFacility{
+	totalLimit Long,
+    currency String,
+    startDate LocalDate,
+    endDate LocalDate
 }
 
-entity Loan {
-	amount Long,
-    current String,
+entity CreditLimit{
+	type LoanType,
+    totalLimit Long
     
 }
-
-entity LoanDetail {
-	jobTitle String,
-	minSalary Long,
-	maxSalary Long
+entity Loan {
+	amount Long,
+    currency String, 
+    startDate LocalDate,
+    endDate LocalDate,
+    interestRate Double
 }
 
 entity Payment {
@@ -43,32 +43,27 @@ entity Payment {
     paymentDate LocalDate
 }
 
-
-entity JobHistory {
-	startDate Instant,
-	endDate Instant,
-	language Language
-}
-
 enum LoanType {
     CAR, ENGLISH, SPANISH
 }
 
-relationship OneToOne {
-	Loan{loanDetail} to LoanDetail
+relationship OneToMany {
+	CreditFacility{creditLimit} to CreditLimit
+    CreditFacility{applicant} to Applicant
+    Loan{payment} to Payment
 }
 
 relationship OneToOne {
-	Loan{applicant} to Applicant
+	Loan{applicant} to Applicant,
+    Applicant{User} to User
 }
 
 relationship ManyToOne {
-	Loan{loanRequirement} to LoanRequirement
-	Department{location} to Location
+	Loan{creditFacility} to CreditFacility
 }
 
 // Set pagination options
-paginate Loan, LoanRequirement with pagination
+paginate Loan, CreditFacility, Applicant, Payment with pagination
 
 // Use Data Transfer Objects (DTO)
 // dto * with mapstruct

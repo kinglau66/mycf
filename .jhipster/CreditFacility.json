@@ -1,0 +1,45 @@
+{
+  "applications": "*",
+  "changelogDate": "20220815135603",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "credit_facility",
+  "fields": [
+    {
+      "fieldName": "totalLimit",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "currency",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "startDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "endDate",
+      "fieldType": "LocalDate"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "CreditFacility",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "creditLimit",
+      "otherEntityRelationshipName": "creditFacility",
+      "relationshipName": "creditLimit",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "applicant",
+      "otherEntityRelationshipName": "creditFacility",
+      "relationshipName": "applicant",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "no"
+}

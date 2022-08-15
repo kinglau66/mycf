@@ -26,6 +26,8 @@ describe('Applicant Form Service', () => {
             phoneNumber: expect.any(Object),
             createdDt: expect.any(Object),
             salary: expect.any(Object),
+            user: expect.any(Object),
+            creditFacility: expect.any(Object),
           })
         );
       });
@@ -42,6 +44,8 @@ describe('Applicant Form Service', () => {
             phoneNumber: expect.any(Object),
             createdDt: expect.any(Object),
             salary: expect.any(Object),
+            user: expect.any(Object),
+            creditFacility: expect.any(Object),
           })
         );
       });

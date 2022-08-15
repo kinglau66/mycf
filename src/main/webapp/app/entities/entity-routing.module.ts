@@ -29,6 +29,16 @@ import { RouterModule } from '@angular/router';
         data: { pageTitle: 'Payments' },
         loadChildren: () => import('./payment/payment.module').then(m => m.PaymentModule),
       },
+      {
+        path: 'credit-facility',
+        data: { pageTitle: 'CreditFacilities' },
+        loadChildren: () => import('./credit-facility/credit-facility.module').then(m => m.CreditFacilityModule),
+      },
+      {
+        path: 'credit-limit',
+        data: { pageTitle: 'CreditLimits' },
+        loadChildren: () => import('./credit-limit/credit-limit.module').then(m => m.CreditLimitModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],

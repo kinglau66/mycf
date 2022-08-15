@@ -10,6 +10,11 @@ import { ApplicantFormService } from './applicant-form.service';
 import { ApplicantService } from '../service/applicant.service';
 import { IApplicant } from '../applicant.model';
 
+import { IUser } from 'app/entities/user/user.model';
+import { UserService } from 'app/entities/user/user.service';
+import { ICreditFacility } from 'app/entities/credit-facility/credit-facility.model';
+import { CreditFacilityService } from 'app/entities/credit-facility/service/credit-facility.service';
+
 import { ApplicantUpdateComponent } from './applicant-update.component';
 
 describe('Applicant Management Update Component', () => {
@@ -18,6 +23,8 @@ describe('Applicant Management Update Component', () => {
   let activatedRoute: ActivatedRoute;
   let applicantFormService: ApplicantFormService;
   let applicantService: ApplicantService;
+  let userService: UserService;
+  let creditFacilityService: CreditFacilityService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -40,17 +47,69 @@ describe('Applicant Management Update Component', () => {
     activatedRoute = TestBed.inject(ActivatedRoute);
     applicantFormService = TestBed.inject(ApplicantFormService);
     applicantService = TestBed.inject(ApplicantService);
+    userService = TestBed.inject(UserService);
+    creditFacilityService = TestBed.inject(CreditFacilityService);
 
     comp = fixture.componentInstance;
   });
 
   describe('ngOnInit', () => {
-    it('Should update editForm', () => {
+    it('Should call User query and add missing value', () => {
       const applicant: IApplicant = { id: 456 };
+      const user: IUser = { id: 53999 };
+      applicant.user = user;
+
+      const userCollection: IUser[] = [{ id: 18231 }];
+      jest.spyOn(userService, 'query').mockReturnValue(of(new HttpResponse({ body: userCollection })));
+      const additionalUsers = [user];
+      const expectedCollection: IUser[] = [...additionalUsers, ...userCollection];
+      jest.spyOn(userService, 'addUserToCollectionIfMissing').mockReturnValue(expectedCollection);
 
       activatedRoute.data = of({ applicant });
       comp.ngOnInit();
 
+      expect(userService.query).toHaveBeenCalled();
+      expect(userService.addUserToCollectionIfMissing).toHaveBeenCalledWith(
+        userCollection,
+        ...additionalUsers.map(expect.objectContaining)
+      );
+      expect(comp.usersSharedCollection).toEqual(expectedCollection);
+    });
+
+    it('Should call CreditFacility query and add missing value', () => {
+      const applicant: IApplicant = { id: 456 };
+      const creditFacility: ICreditFacility = { id: 83858 };
+      applicant.creditFacility = creditFacility;
+
+      const creditFacilityCollection: ICreditFacility[] = [{ id: 95661 }];
+      jest.spyOn(creditFacilityService, 'query').mockReturnValue(of(new HttpResponse({ body: creditFacilityCollection })));
+      const additionalCreditFacilities = [creditFacility];
+      const expectedCollection: ICreditFacility[] = [...additionalCreditFacilities, ...creditFacilityCollection];
+      jest.spyOn(creditFacilityService, 'addCreditFacilityToCollectionIfMissing').mockReturnValue(expectedCollection);
+
+      activatedRoute.data = of({ applicant });
+      comp.ngOnInit();
+
+      expect(creditFacilityService.query).toHaveBeenCalled();
+      expect(creditFacilityService.addCreditFacilityToCollectionIfMissing).toHaveBeenCalledWith(
+        creditFacilityCollection,
+        ...additionalCreditFacilities.map(expect.objectContaining)
+      );
+      expect(comp.creditFacilitiesSharedCollection).toEqual(expectedCollection);
+    });
+
+    it('Should update editForm', () => {
+      const applicant: IApplicant = { id: 456 };
+      const user: IUser = { id: 12358 };
+      applicant.user = user;
+      const creditFacility: ICreditFacility = { id: 336 };
+      applicant.creditFacility = creditFacility;
+
+      activatedRoute.data = of({ applicant });
+      comp.ngOnInit();
+
+      expect(comp.usersSharedCollection).toContain(user);
+      expect(comp.creditFacilitiesSharedCollection).toContain(creditFacility);
       expect(comp.applicant).toEqual(applicant);
     });
   });
@@ -120,6 +179,28 @@ describe('Applicant Management Update Component', () => {
       expect(applicantService.update).toHaveBeenCalled();
       expect(comp.isSaving).toEqual(false);
       expect(comp.previousState).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('Compare relationships', () => {
+    describe('compareUser', () => {
+      it('Should forward to userService', () => {
+        const entity = { id: 123 };
+        const entity2 = { id: 456 };
+        jest.spyOn(userService, 'compareUser');
+        comp.compareUser(entity, entity2);
+        expect(userService.compareUser).toHaveBeenCalledWith(entity, entity2);
+      });
+    });
+
+    describe('compareCreditFacility', () => {
+      it('Should forward to creditFacilityService', () => {
+        const entity = { id: 123 };
+        const entity2 = { id: 456 };
+        jest.spyOn(creditFacilityService, 'compareCreditFacility');
+        comp.compareCreditFacility(entity, entity2);
+        expect(creditFacilityService.compareCreditFacility).toHaveBeenCalledWith(entity, entity2);
+      });
     });
   });
 });

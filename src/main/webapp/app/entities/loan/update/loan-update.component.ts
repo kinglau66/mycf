@@ -7,12 +7,10 @@ import { finalize, map } from 'rxjs/operators';
 import { LoanFormService, LoanFormGroup } from './loan-form.service';
 import { ILoan } from '../loan.model';
 import { LoanService } from '../service/loan.service';
-import { ILoanAttribute } from 'app/entities/loan-attribute/loan-attribute.model';
-import { LoanAttributeService } from 'app/entities/loan-attribute/service/loan-attribute.service';
 import { IApplicant } from 'app/entities/applicant/applicant.model';
 import { ApplicantService } from 'app/entities/applicant/service/applicant.service';
-import { ILoanRequirement } from 'app/entities/loan-requirement/loan-requirement.model';
-import { LoanRequirementService } from 'app/entities/loan-requirement/service/loan-requirement.service';
+import { ICreditFacility } from 'app/entities/credit-facility/credit-facility.model';
+import { CreditFacilityService } from 'app/entities/credit-facility/service/credit-facility.service';
 
 @Component({
   selector: 'jhi-loan-update',
@@ -22,28 +20,23 @@ export class LoanUpdateComponent implements OnInit {
   isSaving = false;
   loan: ILoan | null = null;
 
-  loanAttributesSharedCollection: ILoanAttribute[] = [];
   applicantsSharedCollection: IApplicant[] = [];
-  loanRequirementsSharedCollection: ILoanRequirement[] = [];
+  creditFacilitiesSharedCollection: ICreditFacility[] = [];
 
   editForm: LoanFormGroup = this.loanFormService.createLoanFormGroup();
 
   constructor(
     protected loanService: LoanService,
     protected loanFormService: LoanFormService,
-    protected loanAttributeService: LoanAttributeService,
     protected applicantService: ApplicantService,
-    protected loanRequirementService: LoanRequirementService,
+    protected creditFacilityService: CreditFacilityService,
     protected activatedRoute: ActivatedRoute
   ) {}
 
-  compareLoanAttribute = (o1: ILoanAttribute | null, o2: ILoanAttribute | null): boolean =>
-    this.loanAttributeService.compareLoanAttribute(o1, o2);
-
   compareApplicant = (o1: IApplicant | null, o2: IApplicant | null): boolean => this.applicantService.compareApplicant(o1, o2);
 
-  compareLoanRequirement = (o1: ILoanRequirement | null, o2: ILoanRequirement | null): boolean =>
-    this.loanRequirementService.compareLoanRequirement(o1, o2);
+  compareCreditFacility = (o1: ICreditFacility | null, o2: ICreditFacility | null): boolean =>
+    this.creditFacilityService.compareCreditFacility(o1, o2);
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ loan }) => {
@@ -93,31 +86,17 @@ export class LoanUpdateComponent implements OnInit {
     this.loan = loan;
     this.loanFormService.resetForm(this.editForm, loan);
 
-    this.loanAttributesSharedCollection = this.loanAttributeService.addLoanAttributeToCollectionIfMissing<ILoanAttribute>(
-      this.loanAttributesSharedCollection,
-      loan.loanAttribute
-    );
     this.applicantsSharedCollection = this.applicantService.addApplicantToCollectionIfMissing<IApplicant>(
       this.applicantsSharedCollection,
       loan.applicant
     );
-    this.loanRequirementsSharedCollection = this.loanRequirementService.addLoanRequirementToCollectionIfMissing<ILoanRequirement>(
-      this.loanRequirementsSharedCollection,
-      loan.loanRequirement
+    this.creditFacilitiesSharedCollection = this.creditFacilityService.addCreditFacilityToCollectionIfMissing<ICreditFacility>(
+      this.creditFacilitiesSharedCollection,
+      loan.creditFacility
     );
   }
 
   protected loadRelationshipsOptions(): void {
-    this.loanAttributeService
-      .query()
-      .pipe(map((res: HttpResponse<ILoanAttribute[]>) => res.body ?? []))
-      .pipe(
-        map((loanAttributes: ILoanAttribute[]) =>
-          this.loanAttributeService.addLoanAttributeToCollectionIfMissing<ILoanAttribute>(loanAttributes, this.loan?.loanAttribute)
-        )
-      )
-      .subscribe((loanAttributes: ILoanAttribute[]) => (this.loanAttributesSharedCollection = loanAttributes));
-
     this.applicantService
       .query()
       .pipe(map((res: HttpResponse<IApplicant[]>) => res.body ?? []))
@@ -128,17 +107,14 @@ export class LoanUpdateComponent implements OnInit {
       )
       .subscribe((applicants: IApplicant[]) => (this.applicantsSharedCollection = applicants));
 
-    this.loanRequirementService
+    this.creditFacilityService
       .query()
-      .pipe(map((res: HttpResponse<ILoanRequirement[]>) => res.body ?? []))
+      .pipe(map((res: HttpResponse<ICreditFacility[]>) => res.body ?? []))
       .pipe(
-        map((loanRequirements: ILoanRequirement[]) =>
-          this.loanRequirementService.addLoanRequirementToCollectionIfMissing<ILoanRequirement>(
-            loanRequirements,
-            this.loan?.loanRequirement
-          )
+        map((creditFacilities: ICreditFacility[]) =>
+          this.creditFacilityService.addCreditFacilityToCollectionIfMissing<ICreditFacility>(creditFacilities, this.loan?.creditFacility)
         )
       )
-      .subscribe((loanRequirements: ILoanRequirement[]) => (this.loanRequirementsSharedCollection = loanRequirements));
+      .subscribe((creditFacilities: ICreditFacility[]) => (this.creditFacilitiesSharedCollection = creditFacilities));
   }
 }

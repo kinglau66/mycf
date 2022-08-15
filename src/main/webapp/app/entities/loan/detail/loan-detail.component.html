@@ -18,26 +18,32 @@
         <dd>
           <span>{{ loan.amount }}</span>
         </dd>
-        <dt><span>Current</span></dt>
+        <dt><span>Currency</span></dt>
         <dd>
-          <span>{{ loan.current }}</span>
+          <span>{{ loan.currency }}</span>
         </dd>
-        <dt><span>Loan Attribute</span></dt>
+        <dt><span>Start Date</span></dt>
         <dd>
-          <div *ngIf="loan.loanAttribute">
-            <a [routerLink]="['/loan-attribute', loan.loanAttribute.id, 'view']">{{ loan?.loanAttribute?.id }}</a>
-          </div>
+          <span>{{ loan.startDate | formatMediumDate }}</span>
+        </dd>
+        <dt><span>End Date</span></dt>
+        <dd>
+          <span>{{ loan.endDate | formatMediumDate }}</span>
+        </dd>
+        <dt><span>Interest Rate</span></dt>
+        <dd>
+          <span>{{ loan.interestRate }}</span>
         </dd>
         <dt><span>Applicant</span></dt>
         <dd>
           <div *ngIf="loan.applicant">
-            <a [routerLink]="['/applicant', loan.applicant.id, 'view']">{{ loan?.applicant?.id }}</a>
+            <a [routerLink]="['/applicant', loan.applicant.id, 'view']">{{ loan.applicant?.id }}</a>
           </div>
         </dd>
-        <dt><span>Loan Requirement</span></dt>
+        <dt><span>Credit Facility</span></dt>
         <dd>
-          <div *ngIf="loan.loanRequirement">
-            <a [routerLink]="['/loan-requirement', loan.loanRequirement.id, 'view']">{{ loan?.loanRequirement?.id }}</a>
+          <div *ngIf="loan.creditFacility">
+            <a [routerLink]="['/credit-facility', loan.creditFacility.id, 'view']">{{ loan.creditFacility?.id }}</a>
           </div>
         </dd>
       </dl>

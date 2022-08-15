@@ -59,6 +59,31 @@
           <label class="form-label" for="field_salary">Salary</label>
           <input type="number" class="form-control" name="salary" id="field_salary" data-cy="salary" formControlName="salary" />
         </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_user">User</label>
+          <select class="form-control" id="field_user" data-cy="user" name="user" formControlName="user" [compareWith]="compareUser">
+            <option [ngValue]="null"></option>
+            <option [ngValue]="userOption" *ngFor="let userOption of usersSharedCollection">{{ userOption.id }}</option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_creditFacility">Credit Facility</label>
+          <select
+            class="form-control"
+            id="field_creditFacility"
+            data-cy="creditFacility"
+            name="creditFacility"
+            formControlName="creditFacility"
+            [compareWith]="compareCreditFacility"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="creditFacilityOption" *ngFor="let creditFacilityOption of creditFacilitiesSharedCollection">
+              {{ creditFacilityOption.id }}
+            </option>
+          </select>
+        </div>
       </div>
 
       <div>

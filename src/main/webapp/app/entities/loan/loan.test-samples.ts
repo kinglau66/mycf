@@ -1,3 +1,5 @@
+import dayjs from 'dayjs/esm';
+
 import { ILoan, NewLoan } from './loan.model';
 
 export const sampleWithRequiredData: ILoan = {
@@ -5,14 +7,17 @@ export const sampleWithRequiredData: ILoan = {
 };
 
 export const sampleWithPartialData: ILoan = {
-  id: 40190,
-  amount: 13213,
+  id: 72568,
+  amount: 69933,
 };
 
 export const sampleWithFullData: ILoan = {
-  id: 24434,
-  amount: 72568,
-  current: 'Shoes mobile Loan',
+  id: 151,
+  amount: 72732,
+  currency: 'mobile Loan pink',
+  startDate: dayjs('2022-08-13'),
+  endDate: dayjs('2022-08-13'),
+  interestRate: 8684,
 };
 
 export const sampleWithNewData: NewLoan = {

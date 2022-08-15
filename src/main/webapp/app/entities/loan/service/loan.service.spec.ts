@@ -1,13 +1,16 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
+import { DATE_FORMAT } from 'app/config/input.constants';
 import { ILoan } from '../loan.model';
 import { sampleWithRequiredData, sampleWithNewData, sampleWithPartialData, sampleWithFullData } from '../loan.test-samples';
 
-import { LoanService } from './loan.service';
+import { LoanService, RestLoan } from './loan.service';
 
-const requireRestSample: ILoan = {
+const requireRestSample: RestLoan = {
   ...sampleWithRequiredData,
+  startDate: sampleWithRequiredData.startDate?.format(DATE_FORMAT),
+  endDate: sampleWithRequiredData.endDate?.format(DATE_FORMAT),
 };
 
 describe('Loan Service', () => {

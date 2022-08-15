@@ -21,6 +21,7 @@ type PaymentFormGroupContent = {
   paymentAmount: FormControl<IPayment['paymentAmount']>;
   paymentType: FormControl<IPayment['paymentType']>;
   paymentDate: FormControl<IPayment['paymentDate']>;
+  loan: FormControl<IPayment['loan']>;
 };
 
 export type PaymentFormGroup = FormGroup<PaymentFormGroupContent>;
@@ -43,6 +44,7 @@ export class PaymentFormService {
       paymentAmount: new FormControl(paymentRawValue.paymentAmount),
       paymentType: new FormControl(paymentRawValue.paymentType),
       paymentDate: new FormControl(paymentRawValue.paymentDate),
+      loan: new FormControl(paymentRawValue.loan),
     });
   }
 

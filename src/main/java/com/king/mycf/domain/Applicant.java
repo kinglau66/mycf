@@ -1,5 +1,6 @@
 package com.king.mycf.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -45,6 +46,14 @@ public class Applicant implements Serializable {
 
     @Column(name = "salary")
     private Long salary;
+
+    @OneToOne
+    @JoinColumn(unique = true)
+    private User user;
+
+    @ManyToOne
+    @JsonIgnoreProperties(value = { "creditLimits", "applicants" }, allowSetters = true)
+    private CreditFacility creditFacility;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -137,6 +146,32 @@ public class Applicant implements Serializable {
 
     public void setSalary(Long salary) {
         this.salary = salary;
+    }
+
+    public User getUser() {
+        return this.user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Applicant user(User user) {
+        this.setUser(user);
+        return this;
+    }
+
+    public CreditFacility getCreditFacility() {
+        return this.creditFacility;
+    }
+
+    public void setCreditFacility(CreditFacility creditFacility) {
+        this.creditFacility = creditFacility;
+    }
+
+    public Applicant creditFacility(CreditFacility creditFacility) {
+        this.setCreditFacility(creditFacility);
+        return this;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

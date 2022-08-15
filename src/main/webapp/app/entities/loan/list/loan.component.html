@@ -34,10 +34,12 @@
         <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
           <th scope="col" jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col" jhiSortBy="amount"><span>Amount</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="current"><span>Current</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="loanAttribute.id"><span>Loan Attribute</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="currency"><span>Currency</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="startDate"><span>Start Date</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="endDate"><span>End Date</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="interestRate"><span>Interest Rate</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col" jhiSortBy="applicant.id"><span>Applicant</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="loanRequirement.id"><span>Loan Requirement</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="creditFacility.id"><span>Credit Facility</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -47,20 +49,18 @@
             <a [routerLink]="['/loan', loan.id, 'view']">{{ loan.id }}</a>
           </td>
           <td>{{ loan.amount }}</td>
-          <td>{{ loan.current }}</td>
-          <td>
-            <div *ngIf="loan.loanAttribute">
-              <a [routerLink]="['/loan-attribute', loan.loanAttribute.id, 'view']">{{ loan?.loanAttribute?.id }}</a>
-            </div>
-          </td>
+          <td>{{ loan.currency }}</td>
+          <td>{{ loan.startDate | formatMediumDate }}</td>
+          <td>{{ loan.endDate | formatMediumDate }}</td>
+          <td>{{ loan.interestRate }}</td>
           <td>
             <div *ngIf="loan.applicant">
-              <a [routerLink]="['/applicant', loan.applicant.id, 'view']">{{ loan?.applicant?.id }}</a>
+              <a [routerLink]="['/applicant', loan.applicant.id, 'view']">{{ loan.applicant?.id }}</a>
             </div>
           </td>
           <td>
-            <div *ngIf="loan.loanRequirement">
-              <a [routerLink]="['/loan-requirement', loan.loanRequirement.id, 'view']">{{ loan?.loanRequirement?.id }}</a>
+            <div *ngIf="loan.creditFacility">
+              <a [routerLink]="['/credit-facility', loan.creditFacility.id, 'view']">{{ loan.creditFacility?.id }}</a>
             </div>
           </td>
           <td class="text-end">

@@ -1,0 +1,69 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-credit-limit-heading" data-cy="CreditLimitCreateUpdateHeading">Create or edit a Credit Limit</h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_type">Type</label>
+          <select class="form-control" name="type" formControlName="type" id="field_type" data-cy="type">
+            <option [ngValue]="null"></option>
+            <option *ngFor="let loanType of loanTypeValues" [value]="loanType">loanType</option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_totalLimit">Total Limit</label>
+          <input
+            type="number"
+            class="form-control"
+            name="totalLimit"
+            id="field_totalLimit"
+            data-cy="totalLimit"
+            formControlName="totalLimit"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_creditFacility">Credit Facility</label>
+          <select
+            class="form-control"
+            id="field_creditFacility"
+            data-cy="creditFacility"
+            name="creditFacility"
+            formControlName="creditFacility"
+            [compareWith]="compareCreditFacility"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="creditFacilityOption" *ngFor="let creditFacilityOption of creditFacilitiesSharedCollection">
+              {{ creditFacilityOption.id }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

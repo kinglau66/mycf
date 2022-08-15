@@ -1,0 +1,42 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="creditLimit">
+      <h2 data-cy="creditLimitDetailsHeading"><span>Credit Limit</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ creditLimit.id }}</span>
+        </dd>
+        <dt><span>Type</span></dt>
+        <dd>
+          <span>{{ creditLimit.type }}</span>
+        </dd>
+        <dt><span>Total Limit</span></dt>
+        <dd>
+          <span>{{ creditLimit.totalLimit }}</span>
+        </dd>
+        <dt><span>Credit Facility</span></dt>
+        <dd>
+          <div *ngIf="creditLimit.creditFacility">
+            <a [routerLink]="['/credit-facility', creditLimit.creditFacility.id, 'view']">{{ creditLimit.creditFacility?.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/credit-limit', creditLimit.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

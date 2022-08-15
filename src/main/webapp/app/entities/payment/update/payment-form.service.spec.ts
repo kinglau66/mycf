@@ -23,6 +23,7 @@ describe('Payment Form Service', () => {
             paymentAmount: expect.any(Object),
             paymentType: expect.any(Object),
             paymentDate: expect.any(Object),
+            loan: expect.any(Object),
           })
         );
       });
@@ -36,6 +37,7 @@ describe('Payment Form Service', () => {
             paymentAmount: expect.any(Object),
             paymentType: expect.any(Object),
             paymentDate: expect.any(Object),
+            loan: expect.any(Object),
           })
         );
       });
