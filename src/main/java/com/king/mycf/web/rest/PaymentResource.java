@@ -2,6 +2,7 @@ package com.king.mycf.web.rest;
 
 import com.king.mycf.domain.Payment;
 import com.king.mycf.repository.PaymentRepository;
+import com.king.mycf.security.SecurityUtils;
 import com.king.mycf.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -10,6 +11,7 @@ import java.util.Objects;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -154,9 +156,14 @@ public class PaymentResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of payments in body.
      */
     @GetMapping("/payments")
-    public ResponseEntity<List<Payment>> getAllPayments(@org.springdoc.api.annotations.ParameterObject Pageable pageable) {
+    public ResponseEntity<List<Payment>> getAllPayments(@ParameterObject Pageable pageable) {
         log.debug("REST request to get a page of Payments");
-        Page<Payment> page = paymentRepository.findAll(pageable);
+        Page<Payment> page = Page.empty();
+        if (SecurityUtils.hasCurrentUserAnyOfAuthorities("ROLE_APPLICANT")) {
+            page = paymentRepository.findAllByLoan_Applicant_User_Login(SecurityUtils.getCurrentUserLogin().orElse(""), pageable);
+        } else {
+            page = paymentRepository.findAll(pageable);
+        }
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

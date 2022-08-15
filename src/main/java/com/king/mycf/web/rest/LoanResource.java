@@ -2,6 +2,7 @@ package com.king.mycf.web.rest;
 
 import com.king.mycf.domain.Loan;
 import com.king.mycf.repository.LoanRepository;
+import com.king.mycf.security.SecurityUtils;
 import com.king.mycf.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -160,7 +161,12 @@ public class LoanResource {
     @GetMapping("/loans")
     public ResponseEntity<List<Loan>> getAllLoans(@org.springdoc.api.annotations.ParameterObject Pageable pageable) {
         log.debug("REST request to get a page of Loans");
-        Page<Loan> page = loanRepository.findAll(pageable);
+        Page<Loan> page = Page.empty();
+        if (SecurityUtils.hasCurrentUserAnyOfAuthorities("ROLE_APPLICANT")) {
+            page = loanRepository.findAllByApplicant_User_Login(SecurityUtils.getCurrentUserLogin().orElse(""), pageable);
+        } else {
+            page = loanRepository.findAll(pageable);
+        }
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
