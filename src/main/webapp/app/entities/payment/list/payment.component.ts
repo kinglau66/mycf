@@ -10,6 +10,7 @@ import { ITEMS_PER_PAGE, PAGE_HEADER, TOTAL_COUNT_RESPONSE_HEADER } from 'app/co
 import { ASC, DESC, SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/config/navigation.constants';
 import { EntityArrayResponseType, PaymentService } from '../service/payment.service';
 import { PaymentDeleteDialogComponent } from '../delete/payment-delete-dialog.component';
+import { NUMBER_FORMAT } from '../../../config/input.constants';
 
 @Component({
   selector: 'jhi-payment',
@@ -26,6 +27,7 @@ export class PaymentComponent implements OnInit {
   totalItems = 0;
   page = 1;
 
+  numberFormat = NUMBER_FORMAT;
   constructor(
     protected paymentService: PaymentService,
     protected activatedRoute: ActivatedRoute,

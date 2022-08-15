@@ -24,7 +24,6 @@ type LoanFormGroupContent = {
   endDate: FormControl<ILoan['endDate']>;
   interestRate: FormControl<ILoan['interestRate']>;
   applicant: FormControl<ILoan['applicant']>;
-  creditFacility: FormControl<ILoan['creditFacility']>;
 };
 
 export type LoanFormGroup = FormGroup<LoanFormGroupContent>;
@@ -45,12 +44,11 @@ export class LoanFormService {
         }
       ),
       amount: new FormControl(loanRawValue.amount),
-      currency: new FormControl(loanRawValue.currency),
+      currency: new FormControl(loanRawValue.currency ?? 'SGD'),
       startDate: new FormControl(loanRawValue.startDate),
       endDate: new FormControl(loanRawValue.endDate),
       interestRate: new FormControl(loanRawValue.interestRate),
       applicant: new FormControl(loanRawValue.applicant),
-      creditFacility: new FormControl(loanRawValue.creditFacility),
     });
   }
 

@@ -45,7 +45,7 @@
           <td>
             <a [routerLink]="['/payment', payment.id, 'view']">{{ payment.id }}</a>
           </td>
-          <td>{{ payment.paymentAmount }}</td>
+          <td>{{ numberFormat.format(payment.paymentAmount ?? 0) }}</td>
           <td>{{ payment.paymentType }}</td>
           <td>{{ payment.paymentDate | formatMediumDate }}</td>
           <td>
@@ -63,21 +63,6 @@
               >
                 <fa-icon icon="eye"></fa-icon>
                 <span class="d-none d-md-inline">View</span>
-              </button>
-
-              <button
-                type="submit"
-                [routerLink]="['/payment', payment.id, 'edit']"
-                class="btn btn-primary btn-sm"
-                data-cy="entityEditButton"
-              >
-                <fa-icon icon="pencil-alt"></fa-icon>
-                <span class="d-none d-md-inline">Edit</span>
-              </button>
-
-              <button type="submit" (click)="delete(payment)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
-                <fa-icon icon="times"></fa-icon>
-                <span class="d-none d-md-inline">Delete</span>
               </button>
             </div>
           </td>

@@ -34,31 +34,13 @@
             formControlName="paymentType"
           />
         </div>
-
-        <div class="row mb-3">
-          <label class="form-label" for="field_paymentDate">Payment Date</label>
-          <div class="input-group">
-            <input
-              id="field_paymentDate"
-              data-cy="paymentDate"
-              type="text"
-              class="form-control"
-              name="paymentDate"
-              ngbDatepicker
-              #paymentDateDp="ngbDatepicker"
-              formControlName="paymentDate"
-            />
-            <button type="button" class="btn btn-secondary" (click)="paymentDateDp.toggle()">
-              <fa-icon icon="calendar-alt"></fa-icon>
-            </button>
-          </div>
-        </div>
-
         <div class="row mb-3">
           <label class="form-label" for="field_loan">Loan</label>
           <select class="form-control" id="field_loan" data-cy="loan" name="loan" formControlName="loan" [compareWith]="compareLoan">
             <option [ngValue]="null"></option>
-            <option [ngValue]="loanOption" *ngFor="let loanOption of loansSharedCollection">{{ loanOption.id }}</option>
+            <option [ngValue]="loanOption" *ngFor="let loanOption of loansSharedCollection">
+              {{ numberFormat.format(loanOption.amount ?? 0) }}
+            </option>
           </select>
         </div>
       </div>

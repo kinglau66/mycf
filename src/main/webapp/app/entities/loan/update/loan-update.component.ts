@@ -21,7 +21,6 @@ export class LoanUpdateComponent implements OnInit {
   loan: ILoan | null = null;
 
   applicantsSharedCollection: IApplicant[] = [];
-  creditFacilitiesSharedCollection: ICreditFacility[] = [];
 
   editForm: LoanFormGroup = this.loanFormService.createLoanFormGroup();
 
@@ -29,15 +28,10 @@ export class LoanUpdateComponent implements OnInit {
     protected loanService: LoanService,
     protected loanFormService: LoanFormService,
     protected applicantService: ApplicantService,
-    protected creditFacilityService: CreditFacilityService,
     protected activatedRoute: ActivatedRoute
   ) {}
 
   compareApplicant = (o1: IApplicant | null, o2: IApplicant | null): boolean => this.applicantService.compareApplicant(o1, o2);
-
-  compareCreditFacility = (o1: ICreditFacility | null, o2: ICreditFacility | null): boolean =>
-    this.creditFacilityService.compareCreditFacility(o1, o2);
-
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ loan }) => {
       this.loan = loan;
@@ -90,10 +84,6 @@ export class LoanUpdateComponent implements OnInit {
       this.applicantsSharedCollection,
       loan.applicant
     );
-    this.creditFacilitiesSharedCollection = this.creditFacilityService.addCreditFacilityToCollectionIfMissing<ICreditFacility>(
-      this.creditFacilitiesSharedCollection,
-      loan.creditFacility
-    );
   }
 
   protected loadRelationshipsOptions(): void {
@@ -106,15 +96,5 @@ export class LoanUpdateComponent implements OnInit {
         )
       )
       .subscribe((applicants: IApplicant[]) => (this.applicantsSharedCollection = applicants));
-
-    this.creditFacilityService
-      .query()
-      .pipe(map((res: HttpResponse<ICreditFacility[]>) => res.body ?? []))
-      .pipe(
-        map((creditFacilities: ICreditFacility[]) =>
-          this.creditFacilityService.addCreditFacilityToCollectionIfMissing<ICreditFacility>(creditFacilities, this.loan?.creditFacility)
-        )
-      )
-      .subscribe((creditFacilities: ICreditFacility[]) => (this.creditFacilitiesSharedCollection = creditFacilities));
   }
 }

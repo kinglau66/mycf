@@ -9,8 +9,8 @@ import { IApplicant } from '../applicant.model';
 import { ApplicantService } from '../service/applicant.service';
 import { IUser } from 'app/entities/user/user.model';
 import { UserService } from 'app/entities/user/user.service';
-import { ICreditFacility } from 'app/entities/credit-facility/credit-facility.model';
 import { CreditFacilityService } from 'app/entities/credit-facility/service/credit-facility.service';
+import { ICreditFacility } from '../../credit-facility/credit-facility.model';
 
 @Component({
   selector: 'jhi-applicant-update',

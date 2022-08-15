@@ -22,6 +22,8 @@ export class PaymentUpdateComponent implements OnInit {
 
   editForm: PaymentFormGroup = this.paymentFormService.createPaymentFormGroup();
 
+  numberFormat = new Intl.NumberFormat('en-SG', { style: 'currency', currency: 'SGD' });
+
   constructor(
     protected paymentService: PaymentService,
     protected paymentFormService: PaymentFormService,

@@ -43,7 +43,7 @@
             </span>
           </a>
           <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="entity-menu">
-            <li>
+            <li *jhiHasAnyAuthority="'ROLE_BANKER'">
               <a
                 class="dropdown-item"
                 routerLink="applicant"
@@ -55,7 +55,7 @@
                 <span>Applicant</span>
               </a>
             </li>
-            <li>
+            <!-- <li>
               <a
                 class="dropdown-item"
                 routerLink="loan-requirement"
@@ -66,7 +66,7 @@
                 <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
                 <span>Loan Requirement</span>
               </a>
-            </li>
+            </li> -->
             <li>
               <a
                 class="dropdown-item"
@@ -79,7 +79,7 @@
                 <span>Loan</span>
               </a>
             </li>
-            <li>
+            <!-- <li>
               <a
                 class="dropdown-item"
                 routerLink="loan-attribute"
@@ -90,7 +90,7 @@
                 <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
                 <span>Loan Attribute</span>
               </a>
-            </li>
+            </li> -->
             <li>
               <a
                 class="dropdown-item"
@@ -103,7 +103,7 @@
                 <span>Payment</span>
               </a>
             </li>
-            <li>
+            <li *jhiHasAnyAuthority="'ROLE_BANKER'">
               <a
                 class="dropdown-item"
                 routerLink="credit-facility"
@@ -115,7 +115,7 @@
                 <span>Credit Facility</span>
               </a>
             </li>
-            <li>
+            <!-- <li>
               <a
                 class="dropdown-item"
                 routerLink="credit-limit"
@@ -126,7 +126,7 @@
                 <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
                 <span>Credit Limit</span>
               </a>
-            </li>
+            </li> -->
             <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
           </ul>
         </li>

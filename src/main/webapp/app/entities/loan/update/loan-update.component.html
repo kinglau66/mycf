@@ -17,8 +17,13 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_currency">Currency</label>
-          <input type="text" class="form-control" name="currency" id="field_currency" data-cy="currency" formControlName="currency" />
+          <label class="form-label" for="field_applicant">Currency</label>
+          <select class="form-control" id="field_currency" data-cy="currency" name="currency" formControlName="currency">
+            <option [ngValue]="'SGD'" [selected]="true">SGD</option>
+            <option [ngValue]="'USD'">USD</option>
+            <option [ngValue]="'MYR'">MYR</option>
+            <option [ngValue]="'RMB'">RMB</option>
+          </select>
         </div>
 
         <div class="row mb-3">
@@ -78,23 +83,8 @@
             [compareWith]="compareApplicant"
           >
             <option [ngValue]="null"></option>
-            <option [ngValue]="applicantOption" *ngFor="let applicantOption of applicantsSharedCollection">{{ applicantOption.id }}</option>
-          </select>
-        </div>
-
-        <div class="row mb-3">
-          <label class="form-label" for="field_creditFacility">Credit Facility</label>
-          <select
-            class="form-control"
-            id="field_creditFacility"
-            data-cy="creditFacility"
-            name="creditFacility"
-            formControlName="creditFacility"
-            [compareWith]="compareCreditFacility"
-          >
-            <option [ngValue]="null"></option>
-            <option [ngValue]="creditFacilityOption" *ngFor="let creditFacilityOption of creditFacilitiesSharedCollection">
-              {{ creditFacilityOption.id }}
+            <option [ngValue]="applicantOption" *ngFor="let applicantOption of applicantsSharedCollection">
+              {{ applicantOption.firstName }} {{ applicantOption.lastName }}
             </option>
           </select>
         </div>
